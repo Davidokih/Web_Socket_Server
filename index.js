@@ -8,9 +8,9 @@ const user_router = require("./Routers/user_router");
 const port = process.env.PORT;
 const app = express();
 
-app.use(cors);
+app.use(cors());
 app.use(express.json());
-// app.use(express.urlencoded({ extemded: true }));
+// app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
     res.json({
