@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const message_schema = mongoose.Schema({
-    chat_room: {
+    conversationId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "chats"
+        ref: "conversations"
     },
-    user: {
+    sendeId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
