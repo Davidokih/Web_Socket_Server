@@ -81,11 +81,11 @@ const get_user = async (req, res) => {
 
 const get_single_user = async (req, res) => {
     try {
-        const user = await user_model.findById(req.params.id);
+        const user = await user_model.findById(req.user.id);
+        // console.log(req.user);
         if (!user) {
             throw new AppError(400, "user dose not exist");
         }
-
         res.status(200).json({
             status: "Success",
             data: user
@@ -95,13 +95,14 @@ const get_single_user = async (req, res) => {
             status: "Failed",
             message: error.message
         });
+        console.log(error);
     }
 };
 
 const update_user = async (req, res) => {
     try {
         const { phone_No, user_Name, email } = req.body;
-        const user = await user_model.find({ _id: req.params.id });
+        const user = await user_model.find({ _id: req.user.id });
         if (!user) {
             throw new AppError(400, "user dose not exist");
         }
@@ -127,7 +128,7 @@ const update_user = async (req, res) => {
 
 const delete_user = async (req, res) => {
     try {
-        const remove_user = await user_model.findByIdAndDelete(req.params.id);
+        const remove_user = await user_model.findByIdAndDelete(req.user.id);
 
         res.status(200).json({
             status: "Fail",

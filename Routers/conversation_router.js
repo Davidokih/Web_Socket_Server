@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const { createConversation, get_conversation } = require("../Controller/conversation_controller");
-// const auth = require("../Middlewares/auth");
+const auth = require("../Middlewares/auth");
 
-router.route("/:userID").get(get_conversation);
-router.route("/room").post(createConversation);
+router.route("/").get(auth, get_conversation);
+router.route("/create").post(auth, createConversation);
 
 module.exports = router;

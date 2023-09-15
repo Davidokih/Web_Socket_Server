@@ -3,7 +3,7 @@ const conversation_model = require("../Model/conversation_model");
 const createConversation = async (req, res) => {
     try {
         const newConversation = new conversation_model({
-            members: [ req.body.senderId, req.body.receiverId ]
+            members: [ req.user.id, req.body.receiverId ]
         });
 
         const savedConversation = await newConversation.save();
@@ -21,7 +21,7 @@ const createConversation = async (req, res) => {
 
 const get_conversation = async (req, res) => {
     try {
-        const id = req.params.userID;
+        const id = req.user.id;
 
         const conversation = await conversation_model.find({
             members: { $in: [ id ] }
