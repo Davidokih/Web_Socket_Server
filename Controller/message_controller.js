@@ -19,7 +19,7 @@ const create_message = async (req, res) => {
 
 const get_message = async (req, res) => {
     try {
-        const id = req.params.conversationID;
+        const id = req.user.id;
 
         const message = await message_schema.find({ conversationId: id });
 

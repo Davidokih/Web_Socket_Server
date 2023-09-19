@@ -12,6 +12,6 @@ module.exports = async (req, res, next) => {
         next();
     } catch (error) {
         res.status(401).json({ message: "Forbidden" });
-        console.log(error);
+        // console.log(error);
     }
 };
