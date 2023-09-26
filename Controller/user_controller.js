@@ -65,11 +65,14 @@ const signin_user = async (req, res) => {
 
 const get_user = async (req, res) => {
     try {
-        const users = await user_model.find();
+        const userId = req.query.userId;
+        const userName = req.query.userName;
+        const users = userId ? await user_model.findById(userId) : await user_model.findOne({ userName: userName });
 
+        const { password, updatedAt, ...other } = users._doc;
         res.status(200).json({
             status: "Success",
-            data: users
+            data: other
         });
     } catch (error) {
         res.status(500).json({

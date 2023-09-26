@@ -1,8 +1,14 @@
 const message_schema = require("../Model/message_model");
+// const conversation_model = require("../Model/conversation_model");
 
 const create_message = async (req, res) => {
     try {
-        const message = await message_schema(req.body);
+        const id = req.user.id;
+        const message = await message_schema({
+            conversationId: req.body.conversationId,
+            sendeId: id,
+            message: req.body.message
+        });
 
         const saved_message = await message.save();
         res.status(201).json({

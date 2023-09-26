@@ -7,6 +7,6 @@ const {
 const auth = require("../Middlewares/auth");
 
 router.route("/").get(auth, get_message);
-router.route("/create").post(create_message);
+router.route("/create").post(auth, create_message);
 
 module.exports = router;
