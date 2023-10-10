@@ -82,6 +82,23 @@ const get_user = async (req, res) => {
     }
 };
 
+const All_User = async (req, res) => {
+    try {
+        const user = await user_model.find();
+
+        res.status(200).json({
+            status: "Success",
+            data: user
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: "Failed",
+            message: error.message
+        });
+        console.log(error);
+    }
+};
+
 const get_single_user = async (req, res) => {
     try {
         const user = await user_model.findById(req.user.id);
@@ -151,5 +168,6 @@ module.exports = {
     get_single_user,
     update_user,
     delete_user,
-    signin_user
+    signin_user,
+    All_User
 };
