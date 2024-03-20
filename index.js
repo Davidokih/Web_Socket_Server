@@ -36,10 +36,23 @@ const io = require("socket.io")(server, {
     }
 });
 
+let users = [];
+
+const addUser = (userId, socketId) => {
+    !users.some((user) => user.userId === userId) &&
+        users.push({ userId, socketId });
+};
+
+const getUser = (userId) => {
+    return users.find(user => user.userId === userId);
+};
+
 io.on('connection', (socket) => {
     console.log('User Connected to socket.io');
-    socket.on('setup', (userData) => {
-        socket.join(userData?._id);
+    socket.on('setup', (userId) => {
+        socket.join(userId);
+        addUser(userId, socket.id);
+        socket.emit('getUsers', users);
         socket.emit('connected');
     });
 
@@ -48,15 +61,17 @@ io.on('connection', (socket) => {
         console.log('User Join Room: ' + room);
     });
 
-    socket.on('new message', (newMessageRecieved,recieverId) => {
+    socket.on('new message', ({ newMessageRecieved, currentChat }) => {
         let chat = newMessageRecieved;
+        // const user = getUser(recieverId);
+        if (!chat.sendeId) return console.log('chat.user not defined');
+        console.log(currentChat);
+        for (x in currentChat.members) {
+            if (x === chat.senderId) return;
+            // if (chat.newMessageRecieved.sendeId ) return;
 
-        // console.log(chat);
-        if (!chat.newMessageRecieved.sendeId) return console.log('chat.user not defined');
-
-        if (newMessageRecieved.sendeId ) return;
-
-        io.to(recieverId).emit('message recieved', newMessageRecieved);
+            socket.to(x).emit('message recieved', newMessageRecieved);
+        }
     });
 });
 
